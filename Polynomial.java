@@ -16,10 +16,16 @@ public class Polynomial {
 	}
 
 	public Polynomial add(Polynomial poly) {
-		int len = poly.coefficients.length;
-		double result[] = new double[len];
-		for (int i=0; i<len; i++) {
+		int a_len = this.coefficients.length;
+		int b_len = poly.coefficients.length;
+		int max_len = Math.max(a_len, b_len);
+		int min_len = Math.min(a_len, b_len);
+		double result[] = new double[max_len];
+		for (int i=0; i<min_len; i++) {
 			result[i] = this.coefficients[i] + poly.coefficients[i];
+		}
+		for (int i=min_len; i<max_len; i++) {
+			result[i] = poly.coefficients[i];
 		}
 	
 		return new Polynomial(result);
