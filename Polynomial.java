@@ -18,37 +18,33 @@ public class Polynomial {
 	}
 
 	public Polynomial add(Polynomial poly) {
-		int a_len = this.coefficients.length;
-		int b_len = poly.coefficients.length;
-		double sum[] = new double[a_len + b_len];
+		int exponents1 = this.maxExp(this.exponents);
+		int exponents2 = this.maxExp(poly.exponents);
+		double poly1[] = new double[exponents1];
+		double poly2[] = new double[exponents2];
 
-		for (int i=0; i<a_len; i++) {
-			sum[this.exponents[i]] += this.coefficients[i];
+		for (int i=0; i<exponents1; i++) {
+			poly1[exponents1[i]] = this.coefficients[i];
 		}
-		for (int i=0; i<b_len; i++) {
-			sum[poly.exponents[i]] += poly.coefficients[i];
+		for (int i=0; i<exponents2; i++) {
+			poly1[exponents2[i]] = poly.coefficients[i];
 		}
 
-		int counter = 0;
-		for (int i=0; i<a_len+b_len; i++) {
-			if (sum[i] != 0) {
-				counter++;
+
+	}
+
+	private int maxExp(int arr[]) {
+		if (arr.length == 0) {
+			return 0;
+		}
+		int max = arr[0];
+		for (int e : arr) {
+			if (e > max) {
+				max = e;
 			}
 		}
 
-		double resulting_coefficients[] = new double[counter];
-		int resulting_exponents[] = new int[counter];
-
-		counter = 0;
-		for (int i=0; i<a_len+b_len; i++) {
-			if (sum[i] != 0) {
-				resulting_coefficients[counter] = sum[i];
-				resulting_exponents[counter] = i;
-				counter++;
-			}
-		}
-
-		return new Polynomial(resulting_coefficients, resulting_exponents);
+		return max;
 	}
 
 	public double evaluate(double x) {
