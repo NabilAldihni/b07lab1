@@ -27,16 +27,17 @@ public class Polynomial {
 			poly1[this.exponents[i]] = this.coefficients[i];
 		}
 		for (int i=0; i<poly.exponents.length; i++) {
-			poly1[poly.exponents[i]] = poly.coefficients[i];
+			poly2[poly.exponents[i]] = poly.coefficients[i];
 		}
 
-		double result[] = new double[Math.max(poly1.length, poly2.length)];
-		for (int i=0; i<poly1.length; i++) {
+		double result[] = new double[Math.max(exponents1, exponents2)];
+		for (int i=0; i<exponents1; i++) {
 			result[i] += poly1[i];
 		}
-		for (int i=0; i<poly2.length; i++) {
+		for (int i=0; i<exponents2; i++) {
 			result[i] += poly2[i];
 		}
+
 
 	 	int non_zeros = 0;
 	 	for (int i=0; i<result.length; i++) {
