@@ -1,4 +1,10 @@
 import java.lang.Math;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileReader;
+import java.io.PrintStream;
+import java.util.Scanner;
 
 public class Polynomial {
 	public double coefficients[];
@@ -16,6 +22,35 @@ public class Polynomial {
 			this.coefficients[i] = coefficients[i];
 			this.exponents[i] = exponents[i];
 		}
+	}
+
+	public Polynomial(File file) throws IOException {
+		BufferedReader b = new BufferedReader(new FileReader(file));
+		String line = b.readLine();
+		System.out.println(line);
+		b.close();
+
+		String elements[] = line.split("(?=[+-])");
+		double coefficients[] = new double[elements.length];
+		int exponents[] = new int[elements.length];
+		int counter = 0;
+		for (String e : elements) {
+			String parts[] = e.split("x");
+			if (parts.length == 1) {
+				exponents[counter] = 0;
+				coefficients[counter] = Double.parseDouble(parts[0]);
+			}
+			else {
+				exponents[counter] = Integer.parseInt(parts[1]);
+				coefficients[counter] = Double.parseDouble(parts[0]);
+			}
+			counter++;
+		}
+
+		this.coefficients = coefficients;
+		this.exponents = exponents;
+
+		System.out.println(this);
 	}
 
 	public Polynomial add(Polynomial poly) {
@@ -81,6 +116,36 @@ public class Polynomial {
 		return final_poly;
 	}
 
+	private int maxExp(int arr[]) {
+		if (arr.length == 0) {
+			return 0;
+		}
+		int max = arr[0];
+		for (int e : arr) {
+			if (e > max) {
+				max = e;
+			}
+		}
+
+		return max;
+	}
+
+	public double evaluate(double x) {
+		double result = 0.0;
+		for (int i=0; i<this.coefficients.length; i++) {
+			result += this.coefficients[i] * (Math.pow(x,exponents[i]));
+		}
+		
+		return result;
+	}
+
+	public boolean hasRoot(double root) {
+		if (evaluate(root) == 0) {
+			return true;
+		}
+		return false;
+	}
+
 	private void printArr(double arr[]) {
 		for (int i=0; i<arr.length; i++) {
 			System.out.print(arr[i] + " ");
@@ -110,33 +175,7 @@ public class Polynomial {
 		return ret;
 	}
 
-	private int maxExp(int arr[]) {
-		if (arr.length == 0) {
-			return 0;
-		}
-		int max = arr[0];
-		for (int e : arr) {
-			if (e > max) {
-				max = e;
-			}
-		}
-
-		return max;
-	}
-
-	public double evaluate(double x) {
-		double result = 0.0;
-		for (int i=0; i<this.coefficients.length; i++) {
-			result += this.coefficients[i] * (Math.pow(x,exponents[i]));
-		}
-		
-		return result;
-	}
-
-	public boolean hasRoot(double root) {
-		if (evaluate(root) == 0) {
-			return true;
-		}
-		return false;
+	public void saveToFile(String filename) {
+		// Save to filename
 	}
 }
