@@ -6,8 +6,8 @@ public class Driver {
 		double [] c2 = {3,3,5,20};
 		int [] e2 = {1,4,7,11};
 		Polynomial p2 = new Polynomial(c2, e2);
-		// System.out.println(p.evaluate(3));
-		Polynomial s = p1.add(p2);
+		// Polynomial s = p1.add(p2);
+		Polynomial s = p1.multiply(p2);
 		for (double co : s.coefficients) {
 			System.out.print(co + " ");
 		}

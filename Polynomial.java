@@ -6,6 +6,7 @@ public class Polynomial {
 
 	public Polynomial() {
 		this.coefficients = new double[0];
+		this.exponents = new int[0];
 	}
 
 	public Polynomial(double coefficients[], int exponents[]) {
@@ -38,7 +39,6 @@ public class Polynomial {
 			result[i] += poly2[i];
 		}
 
-
 	 	int non_zeros = 0;
 	 	for (int i=0; i<result.length; i++) {
 			if (result[i] != 0) {
@@ -59,6 +59,55 @@ public class Polynomial {
 
 		return new Polynomial(co, ex);
 
+	}
+
+	public Polynomial multiply(Polynomial poly) {
+		int exponents1 = this.exponents.length;
+		int exponents2 = poly.exponents.length;
+		Polynomial final_poly = new Polynomial();
+		for (int i=0; i<exponents1; i++) {
+			double temp_co[] = new double[exponents2];
+			int temp_exp[] = new int[exponents2];
+			for (int j=0; j<exponents2; j++) {
+				temp_co[j] = this.coefficients[i] * poly.coefficients[j];
+				temp_exp[j] = this.exponents[i] + poly.exponents[j];
+			}
+
+
+			Polynomial temp_poly = new Polynomial(temp_co, temp_exp);
+			final_poly = final_poly.add(temp_poly);
+		}
+
+		return final_poly;
+	}
+
+	private void printArr(double arr[]) {
+		for (int i=0; i<arr.length; i++) {
+			System.out.print(arr[i] + " ");
+		}
+		System.out.println();
+	}
+
+	private void printArr(int arr[]) {
+		for (int i=0; i<arr.length; i++) {
+			System.out.print(arr[i] + " ");
+		}
+		System.out.println();
+	}
+
+	@Override
+	public String toString() {
+		String ret = "";
+		
+		for (int x=0; x<this.coefficients.length; x++) {
+			ret += this.coefficients[x] + " ";
+		}
+		ret += "\n";
+		for (int y=0; y<this.exponents.length; y++) {
+			ret += this.exponents[y] + " ";
+		}
+
+		return ret;
 	}
 
 	private int maxExp(int arr[]) {
